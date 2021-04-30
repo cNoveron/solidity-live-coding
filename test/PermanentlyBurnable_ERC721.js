@@ -7,59 +7,30 @@
  *  #> truffle test <path/to/this/test.js>
  *
  * */
-var Context = artifacts.require("../contracts/PermanentlyBurnable_ERC721.sol");
+var PermanentlyBurnable_ERC721 = artifacts.require("../contracts/PermanentlyBurnable_ERC721.sol");
 
-contract('Context', (accounts) => {
+contract('PermanentlyBurnable_ERC721', (accounts) => {
     var creatorAddress = accounts[0];
     var firstOwnerAddress = accounts[1];
-    var secondOwnerAddress = accounts[2];
-    var externalAddress = accounts[3];
-    var unprivilegedAddress = accounts[4]
+    var unprivilegedAddress = accounts[2];
+
     /* create named accounts for contract roles */
+    const token = PermanentlyBurnable_ERC721.deployed()
 
     before(async () => {
         /* before tests */
-    })
-
-    beforeEach(async () => {
-        /* before each context */
+        await token.mint(0, firstOwnerAddress, { from: creatorAddress })
+        await token.burn(0, { from: unprivilegedAddress })
     })
 
     it('should revert if ...', () => {
-        return Context.deployed()
-            .then(instance => {
-                return instance.publicOrExternalContractMethod(argument1, argument2, {from:externalAddress});
-            })
+        return token.mint(0, firstOwnerAddress, { from: creatorAddress })
             .then(result => {
                 assert.fail();
             })
             .catch(error => {
                 assert.notEqual(error.message, "assert.fail()", "Reason ...");
             });
-        });
+    });
 
-    context('testgroup - security tests - description...', () => {
-        //deploy a new contract
-        before(async () => {
-            /* before tests */
-            const newContext =  await Context.new()
-        })
-
-
-        beforeEach(async () => {
-            /* before each tests */
-        })
-
-
-
-        it('fails on initialize ...', async () => {
-            return assertRevert(async () => {
-                await newContext.initialize()
-            })
-        })
-
-        it('checks if method returns true', async () => {
-            assert.isTrue(await newContext.thisMethodShouldReturnTrue())
-        })
-    })
 });
