@@ -1,5 +1,5 @@
-const Migrations = artifacts.require("Migrations");
+const PermanentlyBurnable_ERC721 = artifacts.require("PermanentlyBurnable_ERC721");
 
 module.exports = function (deployer) {
-  deployer.deploy(Migrations);
+  deployer.deploy(PermanentlyBurnable_ERC721);
 };
